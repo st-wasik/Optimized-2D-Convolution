@@ -66,7 +66,7 @@ void EfficientConvolution::convolve()
 			nextImage.at(y, 0) = C * currentImage.at(y, 0) + U * (currentImage.at(y, 1) + currentImage.at(y - 1, 0) + currentImage.at(y + 1, 0));
 			for (int x = 1; x < nx2; ++x)
 			{
-				nextImage.at(y, x) = U * (currentImage.at(y, x - 1)) + C * currentImage.at(y, x) + U * (currentImage.at(y, x + 1) + currentImage.at(y - 1, x) + currentImage.at(y + 1, x));
+				nextImage.at(y, x) = U * (currentImage.at(y, x - 1)) + C * currentImage.at(y, x) + U * (currentImage.at(y - 1, x) + currentImage.at(y + 1, x) + currentImage.at(y, x + 1));
 			}
 			nextImage.at(y, nx1) = U * currentImage.at(y, nx2) + C * currentImage.at(y, nx1) + U * (currentImage.at(y - 1, nx1) + currentImage.at(y + 1, nx1));
 		}
@@ -115,98 +115,6 @@ void EfficientConvolution::convolve()
 	{
 		const int i1 = i + 1;
 		inside_thread(thread_no, i);
-
-		//	for (int i = 0; i < THREADS && i != thread_no; i++)
-		//	{
-		//		result = result && InsideReady[i1][i];
-		//	}
-		//	if (result)
-		//	{
-		//		currentImage.swap(nextImage);
-		//	}
-
-		/*
-		if (!all(InsideReady[i], THREADS))
-		{
-			//std::cout << "Outer waiting\n" << std::flush;
-			while (!all(InsideReady[i], THREADS));
-		}*/
-		//auto start = std::chrono::steady_clock::now();
-		/*{
-			//left top
-			nextImage.at(0, 0) = C * currentImage.at(0, 0) + U * (currentImage.at(0, 1) + currentImage.at(1, 0));
-
-			//left bottom
-			nextImage.at(ny1, 0) = C * currentImage.at(ny1, 0) + U * (currentImage.at(ny2, 0) + currentImage.at(ny1, 1));
-
-			//right top
-			nextImage.at(0, nx1) = C * currentImage.at(0, nx1) + U * (currentImage.at(0, nx2) + currentImage.at(1, nx1));
-
-			//right bottom
-			nextImage.at(ny1, nx1) = C * currentImage.at(ny1, nx1) + U * (currentImage.at(ny2, nx1) + currentImage.at(ny1, nx2));
-
-			// top
-			for (int j = 1; j < nx2; j++)
-			{
-				nextImage.at(0, j) = C * currentImage.at(0, j) + U * (currentImage.at(0, j - 1) + currentImage.at(0, j + 1) + currentImage.at(1, j));
-			}
-
-			// bottom
-			for (int j = 1; j < nx2; j++)
-			{
-				nextImage.at(ny1, j) = C * currentImage.at(ny1, j) + U * (currentImage.at(ny1, j - 1) + currentImage.at(ny1, j + 1) + currentImage.at(ny2, j));
-			}
-
-			//left
-			for (int j = 1; j < ny2; j++)
-			{
-				nextImage.at(j, 0) = C * currentImage.at(j, 0) + U * (currentImage.at(j - 1, 0) + currentImage.at(j + 1, 0) + currentImage.at(j, 1));
-			}
-
-			//right
-			for (int j = 1; j < ny2; j++)
-			{
-				nextImage.at(j, nx1) = C * currentImage.at(j, nx1) + U * (currentImage.at(j - 1, nx1) + currentImage.at(j + 1, nx1) + currentImage.at(j, nx2));
-			}
-
-			OuterRingReady[i1] = true;
-			//auto end = std::chrono::steady_clock::now();
-			//std::cout << "OUTER elapsed: " + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()) + "ms\n" << std::flush;
-		}*/
-		//OuterRingReady[i1] = true;
-		//inside
-		/*{
-		//	if (!OuterRingReady[i])
-		//	{
-		//		//c.lock();
-		//		//std::cout << std::to_string(thread_no) + " waiting, it: "+std::to_string(i) + "\n" << std::flush;
-		//		//c.unlock();
-		//		while (!OuterRingReady[i]);
-		//	}
-		//	//start = std::chrono::steady_clock::now();
-
-		//	for (int x = thread_no + 1; x < ny2; x += THREADS)
-		//	{
-		//		for (int j = 1; j < nx2; j++)
-		//		{
-		//			nextImage.at(x, j) = C * currentImage.at(x, j) + U * (currentImage.at(x - 1, j) + currentImage.at(x + 1, j) + currentImage.at(x, j - 1) + currentImage.at(x, j + 1));
-		//		}
-		//	}
-
-		//	bool result = OuterRingReady[i1];
-		//	for (int i = 0; i < THREADS && i != thread_no; i++)
-		//	{
-		//		result = result && InsideReady[i1][i];
-		//	}
-		//	if (result)
-		//	{
-		//		currentImage.swap(nextImage);
-		//	}
-
-		//	InsideReady[i1][thread_no] = true;
-		//	// end = std::chrono::steady_clock::now();
-		//	//std::cout << "INNER2 elapsed: " + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()) + "ms\n" << std::flush;
-		/*} */
 	}
 
 	//join

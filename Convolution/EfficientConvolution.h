@@ -30,59 +30,6 @@ public:
 		return result;
 	}
 };
-/*
-class Conditions
-{
-public:
-	Conditions() : v{ 0 }, size(THREADS)
-	{
-	}
-
-	void wait(const int& n)
-	{
-		std::unique_lock<std::mutex> lock(m[n]);
-		cv[n].wait(lock, [&]() {return v[n]; });
-	}
-
-	void notify(const int& n)
-	{
-		//std::cout << "notifying for " + std::to_string(n) + "\n" << std::flush;
-		std::unique_lock<std::mutex> lock(m[n]);
-		v[n] = 1;
-	}
-
-	char all()
-	{
-		char result = v[0];
-		for (size_t i = 1; i < size; ++i)
-		{
-			result = result & v[i];
-		}
-		return result;
-	}
-
-	void reset(const int& n)
-	{
-		std::unique_lock<std::mutex> lock(m[n]);
-		v[n] = 0;
-	}
-
-	void resetAll()
-	{
-		for (size_t i = 0; i < size; i++)
-		{
-			std::unique_lock<std::mutex> lock(m[i]);
-			v[i] = 0;
-		}
-	}
-
-private:
-	const size_t size;
-	std::mutex m[THREADS];
-	std::condition_variable cv[THREADS];
-	char v[THREADS];
-};
-*/
 
 class EfficientConvolution
 {
@@ -101,10 +48,6 @@ private:
 
 	std::atomic<bool> run[N] = { 0 };
 	conditions nextImageCond;
-
-
-	//std::atomic<bool> InsideReady[N][THREADS] = { 0 };
-
 };
 
 

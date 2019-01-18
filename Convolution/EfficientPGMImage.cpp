@@ -140,6 +140,6 @@ float & EfficientPGMImage::at(int h, int w)
 
 EfficientPGMImage::~EfficientPGMImage()
 {
-	//if (imageArray != nullptr) delete[] imageArray;
-	imageArray = 0;
+	if (imageArray != nullptr) delete[] imageArray;
+	imageArray = nullptr;
 }
